@@ -2,3 +2,5 @@
 
 simple game ping pong write with zig and raylib.
 
+![demo](./demo.jpg)
+
