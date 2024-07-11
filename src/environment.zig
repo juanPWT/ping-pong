@@ -47,21 +47,23 @@ pub const Player1 = struct {
     size: rl.Vector2,
     speed: rl.Vector2,
     color: rl.Color,
+    score: u8,
 
-    pub fn init(x: f32, y: f32, sizeX: f32, sizeY: f32, speed: f32, color: rl.Color) Player1 {
+    pub fn init(x: f32, y: f32, sizeX: f32, sizeY: f32, speed: f32, color: rl.Color, score: u8) Player1 {
         return Player1{
             .position = rl.Vector2.init(x, y),
             .size = rl.Vector2.init(sizeX, sizeY),
             .speed = rl.Vector2.init(speed, speed),
             .color = color,
+            .score = score,
         };
     }
 
     pub fn move(self: *Player1) void {
-        if (rl.isKeyDown(key.key_up)) {
+        if (rl.isKeyDown(key.key_w)) {
             // how Player1 move to up with speed?
             if (self.position.y >= 0) self.position.y -= self.speed.y;
-        } else if (rl.isKeyDown(key.key_down)) {
+        } else if (rl.isKeyDown(key.key_s)) {
             // how Player1 move to down with speed?
             if (self.position.y + self.size.y <= SCREEN_HEIGHT) self.position.y += self.speed.y;
         }
@@ -77,21 +79,23 @@ pub const Player2 = struct {
     size: rl.Vector2,
     speed: rl.Vector2,
     color: rl.Color,
+    score: u8,
 
-    pub fn init(x: f32, y: f32, sizeX: f32, sizeY: f32, speed: f32, color: rl.Color) Player2 {
+    pub fn init(x: f32, y: f32, sizeX: f32, sizeY: f32, speed: f32, color: rl.Color, score: u8) Player2 {
         return Player2{
             .position = rl.Vector2.init(x, y),
             .size = rl.Vector2.init(sizeX, sizeY),
             .speed = rl.Vector2.init(speed, speed),
             .color = color,
+            .score = score,
         };
     }
 
     pub fn move(self: *Player2) void {
-        if (rl.isKeyDown(key.key_w)) {
+        if (rl.isKeyDown(key.key_up)) {
             // how Player1 move to up with speed?
             if (self.position.y >= 0) self.position.y -= self.speed.y;
-        } else if (rl.isKeyDown(key.key_s)) {
+        } else if (rl.isKeyDown(key.key_down)) {
             // how Player1 move to down with speed?
             if (self.position.y + self.size.y <= SCREEN_HEIGHT) self.position.y += self.speed.y;
         }

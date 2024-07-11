@@ -1,5 +1,3 @@
-// TODO: make score player and rule if score 10 player won?
-
 const std = @import("std");
 const env = @import("environment.zig");
 const rl = @import("raylib");
@@ -14,8 +12,8 @@ pub const Game = struct {
     pub fn init() Game {
         return Game{
             .ball = env.Ball.init(env.SCREEN_WIDTH / 2, env.SCREEN_HEIGHT / 2, 15, GAME_SPEED, rl.Color.white),
-            .player1 = env.Player1.init(0, 50, 10, 50, GAME_SPEED, rl.Color.white),
-            .player2 = env.Player2.init(env.SCREEN_WIDTH - 10, 50, 10, 50, GAME_SPEED, rl.Color.white),
+            .player1 = env.Player1.init(0, 50, 10, 50, GAME_SPEED, rl.Color.white, 0),
+            .player2 = env.Player2.init(env.SCREEN_WIDTH - 10, 50, 10, 50, GAME_SPEED, rl.Color.white, 0),
         };
     }
 
@@ -41,6 +39,9 @@ pub const Game = struct {
         if (self.ball.position.x <= 0 or self.ball.position.x + self.ball.size.x >= env.SCREEN_WIDTH) {
             // player1 view if ball land in player1 field
             if (self.ball.position.x <= 0) {
+                // score player1 ++
+                self.player2.score += 1;
+
                 // re-init ball
                 self.ball = env.Ball.init(env.SCREEN_WIDTH / 2, env.SCREEN_HEIGHT / 2, 15, GAME_SPEED, rl.Color.white);
                 self.ball.speed.x = @abs(self.ball.speed.x); // direct right
@@ -48,6 +49,9 @@ pub const Game = struct {
 
             // player2 view if ball land in player2 field
             if (self.ball.position.x + self.ball.size.x >= env.SCREEN_WIDTH) {
+                // score player2 ++
+                self.player1.score += 1;
+
                 // re-init ball
                 self.ball = env.Ball.init(env.SCREEN_WIDTH / 2, env.SCREEN_HEIGHT / 2, 15, GAME_SPEED, rl.Color.white);
                 self.ball.speed.x = -@abs(self.ball.speed.x); // direct left
@@ -59,5 +63,14 @@ pub const Game = struct {
         self.ball.draw();
         self.player1.draw();
         self.player2.draw();
+
+        // player inormation
+        // player 1
+        rl.drawText("player 1", 50, env.SCREEN_HEIGHT / 2 - 20, 20, rl.Color.white);
+        rl.drawText(rl.textFormat("%d", .{self.player1.score}), 50, env.SCREEN_HEIGHT / 2 + 10, 20, rl.Color.white);
+
+        // player 2
+        rl.drawText("player 2", env.SCREEN_WIDTH - 150, env.SCREEN_HEIGHT / 2 - 20, 20, rl.Color.white);
+        rl.drawText(rl.textFormat("%d", .{self.player2.score}), env.SCREEN_WIDTH - 150, env.SCREEN_HEIGHT / 2 + 10, 20, rl.Color.white);
     }
 };
