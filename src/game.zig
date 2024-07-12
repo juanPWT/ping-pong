@@ -12,8 +12,8 @@ pub const Game = struct {
     pub fn init() Game {
         return Game{
             .ball = env.Ball.init(env.SCREEN_WIDTH / 2, env.SCREEN_HEIGHT / 2, 15, GAME_SPEED, rl.Color.white),
-            .player1 = env.Player1.init(0, 50, 10, 50, GAME_SPEED, rl.Color.white, 0),
-            .player2 = env.Player2.init(env.SCREEN_WIDTH - 10, 50, 10, 50, GAME_SPEED, rl.Color.white, 0),
+            .player1 = env.Player1.init(30, 50, 10, 50, GAME_SPEED, rl.Color.white, 0),
+            .player2 = env.Player2.init(env.SCREEN_WIDTH - 40, 50, 10, 50, GAME_SPEED, rl.Color.white, 0),
         };
     }
 
@@ -25,14 +25,23 @@ pub const Game = struct {
         self.player1.move();
         self.player2.move();
 
+        // ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // player 1
-        if (self.ball.position.x <= self.player1.position.x + self.player1.size.x and self.ball.position.y >= self.player1.position.y and self.ball.position.y <= self.player1.position.y + self.player1.size.y) {
-            return;
+        if (self.ball.position.x <= self.player1.position.x + self.player1.size.x and
+            self.ball.position.x + self.ball.size.x >= self.player1.position.x + self.player1.size.x and
+            self.ball.position.y + self.ball.size.y >= self.player1.position.y and
+            self.ball.position.y + self.ball.size.y <= self.player1.position.y + self.player1.size.y)
+        {
+            self.ball.speed.x *= -1;
         }
 
         // player 2
-        if (self.ball.position.x <= self.player2.position.x + self.player2.size.x and self.ball.position.y >= self.player2.position.y and self.ball.position.y <= self.player2.position.y + self.player2.size.y) {
-            return;
+        if (self.ball.position.x + self.ball.size.x >= self.player2.position.x and
+            self.ball.position.x <= self.player2.position.x + self.player2.size.x and
+            self.ball.position.y + self.ball.size.y >= self.player2.position.y and
+            self.ball.position.y <= self.player2.position.y + self.player2.size.y)
+        {
+            self.ball.speed.x *= -1;
         }
 
         // ball fail pong

@@ -25,11 +25,14 @@ pub fn main() anyerror!void {
         rl.clearBackground(rl.Color.init(100, 234, 79, 255));
 
         // Draw the center circle
-        // rl.drawCircleLines(env.SCREEN_WIDTH / 2, env.SCREEN_HEIGHT / 2, 50, rl.Color.white);
         rl.drawRing(rl.Vector2.init(env.SCREEN_WIDTH / 2, env.SCREEN_HEIGHT / 2), 100, 105, 0.0, 360.0, 0, rl.Color.white);
 
         // Draw the center line
         rl.drawLine(env.SCREEN_WIDTH / 2, 0, env.SCREEN_WIDTH / 2, env.SCREEN_HEIGHT, rl.Color.white);
+
+        // limitation player field
+        rl.drawLine(30, 0, 30, env.SCREEN_HEIGHT, rl.Color.white);
+        rl.drawLine(env.SCREEN_WIDTH - 30, 0, env.SCREEN_WIDTH - 30, env.SCREEN_HEIGHT, rl.Color.white);
 
         // game
         g.update();

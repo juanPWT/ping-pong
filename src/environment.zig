@@ -26,9 +26,9 @@ pub const Ball = struct {
         self.position = rl.math.vector2Add(self.position, self.speed);
 
         // pong x line
-        if (self.position.x <= 0 or self.position.x + self.size.x >= SCREEN_WIDTH) {
-            self.speed.x *= -1;
-        }
+        // if (self.position.x <= 0 or self.position.x + self.size.x >= SCREEN_WIDTH) {
+        //     self.speed.x *= -1;
+        // }
 
         // pong y line
         if (self.position.y <= 0 or self.position.y + self.size.y >= SCREEN_HEIGHT) {
