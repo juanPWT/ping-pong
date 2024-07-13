@@ -81,18 +81,51 @@ fn modeVsCom(g: *game.GameModeVsCom) void {
     g.start();
 }
 
-fn menuScreen() void {
-    rl.clearBackground(rl.Color.white);
-    drawCenterText("Welocome to ping-pong game", env.SCREEN_HEIGHT / 2, 50, rl.Color.init(100, 234, 79, 255));
-    drawCenterText("press p to mode PvP and press c to VsCom", env.SCREEN_HEIGHT / 2 + 60, 20, rl.Color.init(100, 234, 79, 255));
+fn isMouseOverButton(x: i32, y: i32, width: i32, height: i32) bool {
+    const mouseX = rl.getMouseX();
+    const mouseY = rl.getMouseY();
+    return mouseX >= x and mouseX <= x + width and mouseY >= y and mouseY <= y + height;
+}
 
-    if (rl.isKeyDown(rl.KeyboardKey.key_p)) {
-        isMenu = false;
-        mode = ModeGame.Pvp;
-    } else if (rl.isKeyDown(rl.KeyboardKey.key_c)) {
-        isMenu = false;
-        mode = ModeGame.VsCom;
+// make button and click mouse
+fn menuScreen() void {
+    // background
+    rl.clearBackground(rl.Color.white);
+
+    // button prop
+    const buttonW = 200;
+    const buttonH = 50;
+
+    const pvpButtonX = @divTrunc(env.SCREEN_WIDTH - buttonW, 2);
+    const pvpButtonY = @divTrunc(env.SCREEN_HEIGHT, 2) - 60;
+    const vsComButtonX = @divTrunc(env.SCREEN_WIDTH - buttonW, 2);
+    const vsComButtonY = @divTrunc(env.SCREEN_HEIGHT, 2) + 10;
+
+    drawCenterText("Welcome to Ping-Pong game", @divTrunc(env.SCREEN_HEIGHT, 2) - 150, 50, rl.Color.init(100, 234, 79, 255));
+
+    // draw button pvp
+    if (isMouseOverButton(pvpButtonX, pvpButtonY, buttonW, buttonH)) {
+        rl.drawRectangle(pvpButtonX, pvpButtonY, buttonW, buttonH, rl.Color.gray);
+        if (rl.isMouseButtonPressed(rl.MouseButton.mouse_button_left)) {
+            isMenu = false;
+            mode = ModeGame.Pvp;
+        }
+    } else {
+        rl.drawRectangle(pvpButtonX, pvpButtonY, buttonW, buttonH, rl.Color.dark_gray);
     }
+    drawCenterText("PvP Mode", pvpButtonY + 15, 20, rl.Color.white);
+
+    // draw button vscom
+    if (isMouseOverButton(vsComButtonX, vsComButtonY, buttonW, buttonH)) {
+        rl.drawRectangle(vsComButtonX, vsComButtonY, buttonW, buttonH, rl.Color.gray);
+        if (rl.isMouseButtonPressed(rl.MouseButton.mouse_button_left)) {
+            isMenu = false;
+            mode = ModeGame.VsCom;
+        }
+    } else {
+        rl.drawRectangle(vsComButtonX, vsComButtonY, buttonW, buttonH, rl.Color.dark_gray);
+    }
+    drawCenterText("Vs Com Mode", vsComButtonY + 15, 20, rl.Color.white);
 }
 
 fn drawCenterText(text: [:0]const u8, posY: i32, fontSize: i32, color: rl.Color) void {
